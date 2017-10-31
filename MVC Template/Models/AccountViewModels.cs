@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MVC_Template.Models
@@ -65,20 +66,42 @@ namespace MVC_Template.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "Nombre")]
+        public string FirstName { get; set; }
+
+        [Required]
+        [Display(Name = "Apellidos")]
+        public string LastName { get; set; }
+
+        //[Required]
+        [Display(Name = "Fecha de nacimiento")]
+        public string DOB { get; set; }
+
+        [Required]
+        [Display(Name = "Ciudad")]
+        public string City { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
-        [DataType(DataType.Password)]
-        [Display(Name = "Password")]
+        //[StringLength(100, ErrorMessage = "La contraseña debe tener minimo 8 caracteres", MinimumLength = 8)]
+        //[DataType(DataType.Password)]
+        [Display(Name = "Contraseña")]
         public string Password { get; set; }
 
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm password")]
-        [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
+        //[DataType(DataType.Password)]
+        [Display(Name = "Confirmar contraseña")]
+        [Compare("Password", ErrorMessage = "Las contraseñas no coinciden")]
         public string ConfirmPassword { get; set; }
+
+        /*public int AccountTypeID { get; set; }
+        public string AccountCode { get; set; }
+        public bool IsAdmin { get; set; }
+        public string CreatedBy { get; set; }
+        public string CreatedDate { get; set; }*/
     }
 
     public class ResetPasswordViewModel

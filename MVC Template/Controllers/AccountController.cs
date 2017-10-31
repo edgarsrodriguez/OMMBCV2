@@ -17,6 +17,7 @@ namespace MVC_Template.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private static Random random = new Random();
 
         public AccountController()
         {
@@ -57,7 +58,7 @@ namespace MVC_Template.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            ViewBag.ReturnUrl = returnUrl;
+            ViewBag.ReturnUrl = returnUrl; 
             return View();
         }
 
@@ -151,6 +152,31 @@ namespace MVC_Template.Controllers
         {
             if (ModelState.IsValid)
             {
+                if (model.Password == model.ConfirmPassword)
+                {
+
+                }
+                using (OMMBCEntities db = new OMMBCEntities())
+                {
+                    User User = new User();
+                    User.FirstName = model.FirstName;
+                    User.LastName = model.LastName;
+                    User.DOB = DateTime.Now;
+                    User.City = model.City;
+                    User.Email = model.Email;
+                    User.Password = model.Password;
+                    User.IsAdmin = false;
+                    //if (model.AccountCode == "0")
+                    //{
+                    User.AccountTypeID = 2;
+                    User.AccountCode = RandomString(8);
+                    User.IsAdmin = false;
+                    User.CreatedBy = model.Email;
+                    User.CreatedDate = DateTime.Now;
+                    db.Users.Add(User);
+                    db.SaveChanges();
+                    //}
+                }
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
@@ -421,6 +447,19 @@ namespace MVC_Template.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        public static string RandomString(int length)
+        {
+            string temp = "";
+            do
+            {
+                const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+                temp = new string(Enumerable.Repeat(chars, length)
+                  .Select(s => s[random.Next(s.Length)]).ToArray());
+            } while (temp == "");
+            //while (temp == "" || db.Users.Where(u => u.AccountCode == temp).Count() > 0) ;
+            return temp;
         }
 
         #region Helpers
