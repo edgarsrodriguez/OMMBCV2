@@ -11,64 +11,66 @@
     <h4>Registro de usuario nuevo</h4>
     <hr />
     @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.DOB, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.DOB, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.City, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+    <div class="container-form">
+        <div class="row">
+
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                @Html.LabelFor(m => m.FirstName, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                @Html.LabelFor(m => m.LastName, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                @Html.LabelFor(m => m.DOB, new { @class = "control-label" })
+                <input id="DOB" name="DOB" type='text' class="form-control datepicker" />
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                @Html.LabelFor(m => m.City, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                @Html.LabelFor(m => m.Password, new { @class = "control-label" })
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+            </div>
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "control-label" })
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+            </div>
         </div>
     </div>
 
-    /*@Html.TextBoxFor(m => m.AccountTypeID, new {  @class = "hidden", @Value = "1" })
+    <div class="row" style="padding-top:15px;">
+        <div class="col-md-2 col-sm-2 col-xs-6">
+            <a href="@Url.Action("Index")" class="btn btn-primary">
+                <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+                Volver
+            </a>
+        </div>
+        <div class="col-md-offset-8 col-md-2 col-sm-2 col-xs-6">
+            <button type="submit" class="btn btn-success pull-right">
+                <span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span>
+                Registrar
+            </button>
+        </div>
+    </div>
+
+    /*@Html.TextBoxFor(m => m.AccountTypeID, new { @class = "hidden", @Value = "1" })
     @Html.TextBoxFor(m => m.AccountCode, new { @class = "hidden", @Value = "" })
     @Html.TextBoxFor(m => m.IsAdmin, new { @class = "hidden", @Value = "false" })
     @Html.TextBoxFor(m => m.CreatedBy, new { @class = "hidden", @Value = "" })
     @Html.TextBoxFor(m => m.CreatedDate, new { @class = "hidden", @Value = "" })*/
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" value="Register" />
-        </div>
-    </div>
+    
 }
 
 @section Scripts {
     <script type="text/javascript">
-        
+
     </script>
 }
