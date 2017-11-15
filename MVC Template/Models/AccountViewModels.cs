@@ -74,6 +74,8 @@ namespace MVC_Template.Models
         public string LastName { get; set; }
 
         //[Required]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
         [Display(Name = "Fecha de nacimiento")]
         public string DOB { get; set; }
 
