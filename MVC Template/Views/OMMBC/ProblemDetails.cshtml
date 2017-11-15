@@ -1,0 +1,119 @@
+﻿@model MVC_Template.Models.Problem
+
+@{
+    ViewBag.Title = "ProblemDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>ProblemDetails</h2>
+
+<head>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript" async
+            src="https://example.com/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+    <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+</head>
+
+<div>
+    <h4>Problem</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TopicID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TopicID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CreatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CreatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UpdatedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeletedBy)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeletedBy)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeletedDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeletedDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Solution)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Solution)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Level)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Level)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "EditProblem", new { id = Model.ProblemID }) |
+    @Html.ActionLink("Back to List", "IndexQuestionBank")
+</p>

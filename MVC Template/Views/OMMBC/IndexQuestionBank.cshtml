@@ -1,0 +1,98 @@
+﻿@model IEnumerable<MVC_Template.Models.Problem>
+
+@{
+    ViewBag.Title = "IndexQuestionBank";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>IndexQuestionBank</h2>
+
+<head>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+    <script type="text/javascript" async
+            src="https://example.com/MathJax.js?config=TeX-AMS_CHTML">
+    </script>
+    <script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_CHTML">
+    </script>
+</head>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TopicID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedBy)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdatedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Level)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TopicID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedBy)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdatedDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Level)
+        </td>
+        <td>
+            @Html.HiddenFor(modelItem => item.DeletedBy)
+        </td>
+        <td>
+            @Html.HiddenFor(modelItem => item.DeletedDate)
+        </td>
+        <td>
+            @Html.HiddenFor(modelItem => item.CreatedBy)
+        </td>
+        <td>
+            @Html.HiddenFor(modelItem => item.CreatedDate)
+        </td>
+        <td>
+            @*@Html.DisplayFor(modelItem => item.Solution)*@
+            @Html.HiddenFor(modelItem => item.Solution)
+        </td>
+        
+        <td>
+            @if (ViewBag.UserType == 1 || ViewBag.UserType == 2)
+            {
+                @Html.ActionLink("Edit", "EditProblem", new { id = item.ProblemID })
+                @Html.ActionLink("Details", "Details", new { id = item.ProblemID })
+                @Html.ActionLink("Delete", "DeleteProblem", new { id = item.ProblemID })
+            }
+            @if (ViewBag.UserType == 3)
+            {
+                @Html.ActionLink("Answer", "AnswerProblem", new { id = item.ProblemID })
+            }
+        </td>
+    </tr>
+}
+
+</table>

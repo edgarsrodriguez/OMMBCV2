@@ -44,6 +44,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AspNet.ScriptManager.jQuery, Version=1.10.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AspNet.ScriptManager.jQuery.1.10.2\lib\net45\AspNet.ScriptManager.jQuery.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -54,19 +58,37 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
-    <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.DynamicData">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Entity">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.ApplicationServices" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.2\lib\net40\System.Web.Optimization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Extensions">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Abstractions">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
-    <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
@@ -84,9 +106,6 @@
     <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Optimization">
-      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
     </Reference>
     <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
@@ -164,73 +183,42 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AccountType.cs">
-      <DependentUpon>OMMBCModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="Area.cs">
-      <DependentUpon>OMMBCModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\OMMBCController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Group.cs">
-      <DependentUpon>OMMBCModel.tt</DependentUpon>
+    <Compile Include="Migrations\201711132234149_AddProperty.cs" />
+    <Compile Include="Migrations\201711132234149_AddProperty.Designer.cs">
+      <DependentUpon>201711132234149_AddProperty.cs</DependentUpon>
     </Compile>
-    <Compile Include="GroupUser.cs">
-      <DependentUpon>OMMBCModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AccountType.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Area.cs" />
+    <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\GroupUser.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Notification.cs">
-      <DependentUpon>OMMBCModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="OMMBCModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OMMBCModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="OMMBCModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OMMBCModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="OMMBCModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>OMMBCModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="Problem.cs">
-      <DependentUpon>OMMBCModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ProblemAnswer.cs">
-      <DependentUpon>OMMBCModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ProblemSolution.cs">
-      <DependentUpon>OMMBCModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Models\Notification.cs" />
+    <Compile Include="Models\OMMBCdb.cs" />
+    <Compile Include="Models\Problem.cs" />
+    <Compile Include="Models\ProblemAnswer.cs" />
+    <Compile Include="Models\ProblemRepository.cs" />
+    <Compile Include="Models\ProblemSolution.cs" />
+    <Compile Include="Models\Topic.cs" />
+    <Compile Include="Models\User.cs" />
+    <Compile Include="Models\UserLevel.cs" />
+    <Compile Include="Models\UserType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Topic.cs">
-      <DependentUpon>OMMBCModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="User.cs">
-      <DependentUpon>OMMBCModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UserLevel.cs">
-      <DependentUpon>OMMBCModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="UserType.cs">
-      <DependentUpon>OMMBCModel.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -240,27 +228,10 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="OMMBCModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>OMMBCModel.edmx</DependentUpon>
-      <LastGenOutput>OMMBCModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="OMMBCModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>OMMBCModel.edmx</DependentUpon>
-      <LastGenOutput>OMMBCModel.cs</LastGenOutput>
-    </Content>
-    <Content Include="Scripts\bootstrap-datetimepicker.js" />
-    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
-    <EntityDeploy Include="OMMBCModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>OMMBCModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="OMMBCModel.edmx.diagram">
-      <DependentUpon>OMMBCModel.edmx</DependentUpon>
-    </Content>
+    <Content Include="Models\Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Models\Scripts\bootstrap-datetimepicker.min.js" />
+    <Content Include="Models\Scripts\bootstrap.js" />
+    <Content Include="Models\Scripts\bootstrap.min.js" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
@@ -338,23 +309,25 @@
     <Content Include="Content\bootstrap\alerts.less" />
     <Content Include="Content\_bootstrap-datetimepicker.less" />
     <Content Include="Content\bootstrap-datetimepicker-build.less" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\moment-with-locales.js" />
-    <Content Include="Scripts\moment-with-locales.min.js" />
-    <Content Include="Scripts\moment.js" />
-    <Content Include="Scripts\moment.min.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <None Include="Models\Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Models\Scripts\jquery-1.10.2.js" />
+    <Content Include="Models\Scripts\jquery-1.10.2.min.js" />
+    <None Include="Models\Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Models\Scripts\jquery.validate.js" />
+    <Content Include="Models\Scripts\jquery.validate.min.js" />
+    <Content Include="Models\Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Models\Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Models\Scripts\modernizr-2.6.2.js" />
+    <Content Include="Models\Scripts\moment-with-locales.js" />
+    <Content Include="Models\Scripts\moment-with-locales.min.js" />
+    <Content Include="Models\Scripts\moment.js" />
+    <Content Include="Models\Scripts\moment.min.js" />
+    <Content Include="Models\Scripts\respond.js" />
+    <Content Include="Models\Scripts\respond.min.js" />
+    <Content Include="Models\Scripts\_references.js" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
@@ -388,6 +361,11 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
+    <Content Include="Views\OMMBC\IndexQuestionBank.cshtml" />
+    <Content Include="Views\OMMBC\CreateProblem.cshtml" />
+    <Content Include="Views\OMMBC\EditProblem.cshtml" />
+    <Content Include="Views\OMMBC\DeleteProblem.cshtml" />
+    <Content Include="Views\OMMBC\ProblemDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -398,10 +376,18 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Models\Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201711132234149_AddProperty.resx">
+      <DependentUpon>201711132234149_AddProperty.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

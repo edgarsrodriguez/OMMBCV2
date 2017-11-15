@@ -29,5 +29,7 @@ namespace MVC_Template.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<Problem> Problems { get; set; }
     }
 }
