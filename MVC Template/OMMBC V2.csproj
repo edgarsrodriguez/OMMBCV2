@@ -366,6 +366,8 @@
     <Content Include="Views\OMMBC\EditProblem.cshtml" />
     <Content Include="Views\OMMBC\DeleteProblem.cshtml" />
     <Content Include="Views\OMMBC\ProblemDetails.cshtml" />
+    <Content Include="Views\OMMBC\StudentQuestionBank.cshtml" />
+    <Content Include="Views\OMMBC\StudentProblemDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
