@@ -43,8 +43,79 @@ namespace MVC_Template.Controllers
         public ActionResult RequestProblem()
         {
             var db = new OMMBCdb();
-            
-            return View("StudentQuestionBank");
+            //var db = new OMMBCdb();
+            //var mod = new ProblemRequested();
+            foreach (var p in db.Problems)
+            {
+                var prob = new ProblemAnswer()
+                {
+                    ProblemAnswerID = db.ProblemAnswers.Count() + 1,
+                    ProblemID = p.ProblemID,
+                    StudentID = ViewBag.User,
+                    Answer = null,
+                    Attempt = 0,
+                    TutorID = null,
+                    Score = 0
+                };
+                db.ProblemAnswers.Add(prob);
+            }
+            return View(db.ProblemAnswers);
+            //return View("StudentQuestionBank");
+        }
+
+        public ActionResult RequestProblem2()
+        {
+            var db = new OMMBCdb();
+            //var db = new OMMBCdb();
+            //var mod = new ProblemRequested();
+            var selectedID = RequestedProblemsModel.getSelectedProblems();
+            var selectedProbs = from x in db.Problems
+                                where selectedID.Contains(x.ProblemID)
+                                select x;
+            foreach (var p in db.Problems)
+            {
+                var prob = new ProblemAnswer()
+                {
+                    ProblemAnswerID = db.ProblemAnswers.Count() + 1,
+                    ProblemID = p.ProblemID,
+                    StudentID = ViewBag.User,
+                    Answer = null,
+                    Attempt = 0,
+                    TutorID = null,
+                    Score = 0
+                };
+                db.ProblemAnswers.Add(prob);
+            }
+            return View(db.ProblemAnswers);
+            //return View("StudentQuestionBank");
+        }
+
+        // POST: OMMBC View Requested Problems STUDENT
+        [HttpPost]
+        public ActionResult RequestProblem(ProblemAnswer pa)
+        {
+            var db = new OMMBCdb();
+            ViewBag.UserType = 1;
+      
+            string OMMBCdbC = "Data Source=BRTZ-DESKTOP\\SQLEXPRESS;Initial Catalog=OMMBC2;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            using (SqlConnection sqlCon = new SqlConnection(OMMBCdbC))
+            {
+                sqlCon.Open();
+                string query = "INSERT INTO Problems VALUES(@ProblemAnswerID, @ProblemID, @StudentID, @Answer, @Attempt, @TutorID, @Score)";
+                SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
+                sqlCmd.Parameters.AddWithValue("@ProblemAnswerID", pa.ProblemAnswerID);
+                sqlCmd.Parameters.AddWithValue("@ProblemID", pa.ProblemID);
+                sqlCmd.Parameters.AddWithValue("@StudentID", pa.StudentID);
+                sqlCmd.Parameters.AddWithValue("@Answer", pa.Answer);
+                sqlCmd.Parameters.AddWithValue("@Attempt", pa.Attempt);
+                sqlCmd.Parameters.AddWithValue("@TutorID", pa.TutorID);
+                sqlCmd.Parameters.AddWithValue("@Score", pa.Score);
+       
+                sqlCmd.ExecuteNonQuery();
+            }
+
+  //          return RedirectToAction("IndexQuestionBank");
+            return View();
         }
 
 
@@ -71,7 +142,7 @@ namespace MVC_Template.Controllers
                 ProblemID = db.Problems.Count() + 1,
                 CreatedDate = DateTime.Now,
                 UpdatedDate = DateTime.Now,
-                DeletedBy = null, DeletedDate = null
+                DeletedBy = null, DeletedDate = null, Selected = false
             };
             string OMMBCdbC = "Data Source=BRTZ-DESKTOP\\SQLEXPRESS;Initial Catalog=OMMBC2;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
             using (SqlConnection sqlCon = new SqlConnection(OMMBCdbC))
@@ -82,10 +153,7 @@ namespace MVC_Template.Controllers
                 SqlDataAdapter da = new SqlDataAdapter(sqlCmd);
                 DataSet ds = new DataSet();
                 da.Fill(ds);
-                //Drop
-
                 
-             
                 sqlCmd.ExecuteNonQuery();
 
 
@@ -114,7 +182,7 @@ namespace MVC_Template.Controllers
             using (SqlConnection sqlCon = new SqlConnection(OMMBCdbC))
             {
                 sqlCon.Open();
-                string query = "INSERT INTO Problems VALUES(@ProblemID, @TopicID, @Name, @Description, @CreatedBy, @CreatedDate, @UpdatedBy, @UpdatedDate, @DeletedBy, @DeletedDate, @Solution, @Level)";
+                string query = "INSERT INTO Problems VALUES(@ProblemID, @TopicID, @Name, @Description, @CreatedBy, @CreatedDate, @UpdatedBy, @UpdatedDate, @DeletedBy, @DeletedDate, @Solution, @Level, @Selected)";
                 SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
                 sqlCmd.Parameters.AddWithValue("@ProblemID", problm.ProblemID);
                 sqlCmd.Parameters.AddWithValue("@TopicID", problm.TopicID);
@@ -128,6 +196,7 @@ namespace MVC_Template.Controllers
                 sqlCmd.Parameters.AddWithValue("@DeletedDate", DBNull.Value);
                 sqlCmd.Parameters.AddWithValue("@Solution", problm.Solution);
                 sqlCmd.Parameters.AddWithValue("@Level", problm.Level);
+                sqlCmd.Parameters.AddWithValue("@Selected", false);
                 sqlCmd.ExecuteNonQuery();
 
 
@@ -164,6 +233,7 @@ namespace MVC_Template.Controllers
                 problem.DeletedDate = null;
                 problem.Solution = Request.Form["Solution"];
                 problem.Level = Convert.ToInt32(Request.Form["Level"]);
+                problem.Selected = false;
                 problemRepository.Save();
                 return RedirectToAction("IndexQuestionBank");
             }

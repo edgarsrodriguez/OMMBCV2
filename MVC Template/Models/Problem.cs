@@ -9,6 +9,7 @@ namespace MVC_Template.Models
     public partial class Problem
     {
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        
         public int ProblemID { get; set; }
 
         public int TopicID { get; set; }
@@ -36,5 +37,6 @@ namespace MVC_Template.Models
         public string Solution { get; set; }
 
         public int Level { get; set; }
+        public Boolean Selected { get; set; }
         }
 }
