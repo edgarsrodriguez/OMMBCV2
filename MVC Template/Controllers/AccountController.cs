@@ -9,16 +9,20 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MVC_Template.Models;
+using System.Configuration;
+using System.Web.Security;
 
 namespace MVC_Template.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        private OMMBCEntities db = new OMMBCEntities();
+        public int Hours = int.Parse(ConfigurationManager.AppSettings["Hours"]);
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private static Random random = new Random();
-
+        
         public AccountController()
         {
         }
@@ -67,29 +71,62 @@ namespace MVC_Template.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
+        public ActionResult Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            using (OMMBCEntities db = new OMMBCEntities())
             {
-                case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                try
+                {
+                    User User = db.Users.Where(u => u.Email == model.Email).FirstOrDefault();
+                    if (User == null)
+                    {
+                        ModelState.AddModelError("", "El usuario no existe");
+                        return View(model);
+                    }
+                    else
+                    {
+                        if (User.Password == model.Password)
+                        {
+                            string Rol = "3";
+                            if (User.AccountTypeID == 1)
+                            {
+                                Rol = "1";
+                            }
+                            else if (User.AccountTypeID == 2)
+                            {
+                                Rol = "2";
+                            }
+                            DateTime expires = DateTime.Now.AddHours(Hours).AddDays(1);
+                            FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1, model.Email.ToLower(), DateTime.Now.AddHours(Hours), expires, model.RememberMe, Rol, FormsAuthentication.FormsCookiePath);
+                            HttpCookie cookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
+                            FormsAuthentication.SetAuthCookie(User.Email, true);
+                            cookie.Expires = ticket.Expiration;
+                            Response.Cookies.Add(cookie);
+                            if (this.Url.IsLocalUrl(returnUrl))
+                            {
+                                return Redirect(returnUrl);
+                            }
+                            else
+                            {
+                                return RedirectToAction("Index", "Home");
+                            }
+                        }
+                    }
+                    ModelState.AddModelError("", "Contraseña invalida");
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", ex.Message);
                     return View(model);
+                    throw;
+                }
             }
+            return RedirectToAction("Login");
         }
 
         //
@@ -175,26 +212,9 @@ namespace MVC_Template.Controllers
                     User.CreatedDate = DateTime.Now;
                     db.Users.Add(User);
                     db.SaveChanges();
-                    //}
-                }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
                     return RedirectToAction("Index", "Home");
                 }
-                AddErrors(result);
             }
-
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
 
@@ -427,26 +447,6 @@ namespace MVC_Template.Controllers
         public ActionResult ExternalLoginFailure()
         {
             return View();
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                if (_userManager != null)
-                {
-                    _userManager.Dispose();
-                    _userManager = null;
-                }
-
-                if (_signInManager != null)
-                {
-                    _signInManager.Dispose();
-                    _signInManager = null;
-                }
-            }
-
-            base.Dispose(disposing);
         }
 
         public static string RandomString(int length)
