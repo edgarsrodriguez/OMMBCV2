@@ -8,6 +8,7 @@ namespace MVC_Template.Controllers
 {
     public class HomeController : Controller
     {
+        private OMMBCEntities db = new OMMBCEntities();
         public ActionResult Index()
         {
             return View();
