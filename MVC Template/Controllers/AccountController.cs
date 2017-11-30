@@ -193,7 +193,7 @@ namespace MVC_Template.Controllers
                 {
 
                 }
-                using (OMMBCEntities db = new OMMBCEntities())
+                using (OMMBCdb db = new OMMBCdb())
                 {
                     User User = new User();
                     User.FirstName = model.FirstName;
