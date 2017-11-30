@@ -211,6 +211,7 @@
     <Compile Include="Models\OMMBCdb.cs" />
     <Compile Include="Models\Problem.cs" />
     <Compile Include="Models\ProblemAnswer.cs" />
+    <Compile Include="Models\ProblemAnswerSolutionModel.cs" />
     <Compile Include="Models\ProblemRepository.cs" />
     <Compile Include="Models\ProblemSolution.cs" />
     <Compile Include="Models\RequestedProblemsModel.cs" />
@@ -368,7 +369,9 @@
     <Content Include="Views\OMMBC\DeleteProblem.cshtml" />
     <Content Include="Views\OMMBC\ProblemDetails.cshtml" />
     <Content Include="Views\OMMBC\StudentQuestionBank.cshtml" />
-    <Content Include="Views\OMMBC\StudentProblemDetails.cshtml" />
+    <Content Include="Views\OMMBC\RequestProblem.cshtml" />
+    <Content Include="Views\OMMBC\ProblemDetailsAnswer.cshtml" />
+    <Content Include="Views\OMMBC\SubmittedProblem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -38,5 +38,8 @@ namespace MVC_Template.Models
 
         public int Level { get; set; }
         public Boolean Selected { get; set; }
-        }
+
+        //public ProblemAnswer ProblemAnswer { get; set; }
+    }
+
 }

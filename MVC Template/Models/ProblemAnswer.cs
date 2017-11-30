@@ -23,5 +23,7 @@ namespace MVC_Template.Models
         public int? TutorID { get; set; }
 
         public int? Score { get; set; }
+
+        //public Problem Problem { get; set; }
     }
 }

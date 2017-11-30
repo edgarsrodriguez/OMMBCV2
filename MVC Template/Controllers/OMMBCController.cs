@@ -40,7 +40,7 @@ namespace MVC_Template.Controllers
         }
 
         // GET: OMMBC Request Problems STUDENT
-        public ActionResult RequestProblem()
+        public ActionResult RequestProblemV2()
         {
             var db = new OMMBCdb();
             //var db = new OMMBCdb();
@@ -63,15 +63,16 @@ namespace MVC_Template.Controllers
             //return View("StudentQuestionBank");
         }
 
-        public ActionResult RequestProblem2()
+        public ActionResult RequestProblem()
         {
-            var db = new OMMBCdb();
             //var db = new OMMBCdb();
+            var rpm = new RequestedProblemsModel();
+            var db = new OMMBCdb();
             //var mod = new ProblemRequested();
-            var selectedID = RequestedProblemsModel.getSelectedProblems();
-            var selectedProbs = from x in db.Problems
-                                where selectedID.Contains(x.ProblemID)
-                                select x;
+            var selectedID = rpm.getSelectedProblems();
+            //var selectedProbs = from x in db.Problems
+            //                    where selectedID.Contains(x.ProblemID)
+            //                    select x;
             foreach (var p in db.Problems)
             {
                 var prob = new ProblemAnswer()
@@ -86,8 +87,9 @@ namespace MVC_Template.Controllers
                 };
                 db.ProblemAnswers.Add(prob);
             }
-            return View(db.ProblemAnswers);
+            //return View(db.ProblemAnswers);
             //return View("StudentQuestionBank");
+            return View(db.ProblemAnswers);
         }
 
         // POST: OMMBC View Requested Problems STUDENT
@@ -126,13 +128,115 @@ namespace MVC_Template.Controllers
             return View(problem);
         }
 
+        // GET: OMMBC/Details/5 ADMIN
+        public ActionResult SubmittedProblem(int id)
+        {
+            //p = new ProblemAnswerSolutionModel();
+            //int id = p.Problem.ProblemID;
+            ProblemAnswerSolutionModel p = new ProblemAnswerSolutionModel();
+            p.Problem = problemRepository.GetProblem(id);
+            p.ProblemAnswer = problemRepository.GetProblemAnswer(id);
+            return View(p);
+        }
+
+        public ActionResult ProblemDetailsAnswer(ProblemAnswerSolutionModel p)//int id)
+        {
+            ProblemAnswerSolutionModel PASM = new ProblemAnswerSolutionModel();
+            PASM.Problem = problemRepository.GetProblem(p.Problem.ProblemID);
+            PASM.ProblemAnswer = problemRepository.GetProblemAnswer(p.ProblemAnswer.ProblemID);
+            return View(PASM);
+        }
+
         // GET: OMMBC/Details/5 STUDENT
         public ActionResult StudentProblemDetails(int id)
         {
-            Problem problem = problemRepository.GetProblem(id);
-            return View(problem);
+            var db = new OMMBCdb();
+            ProblemAnswerSolutionModel PASM = new ProblemAnswerSolutionModel();
+            PASM.Problem  = problemRepository.GetProblem(id);
+            //ProblemAnswer prob = new ProblemAnswer()
+            //{
+            //    ProblemAnswerID = db.ProblemAnswers.Count() + 1,
+            //    ProblemID = id,
+            //    StudentID = ViewBag.User,
+            //    Answer = "",
+            //    Attempt = 0,
+            //    TutorID = 0,
+            //    Score = 0
+            //};
+
+            PASM.ProblemAnswer = new ProblemAnswer() { ProblemAnswerID = db.ProblemAnswers.Count() + 1 };//problemRepository.AddAnswer(prob);
+            StudentProblemDetails(PASM);
+
+            return View("ProblemDetailsAnswer", PASM);
         }
 
+        // POST: OMMBC/Details/5 STUDENT
+        [HttpPost]
+        public ActionResult StudentProblemDetails(ProblemAnswerSolutionModel PAsM)
+        {
+            var db = new OMMBCdb();
+            PAsM.ProblemAnswer.ProblemAnswerID = db.ProblemAnswers.Count() + 1;
+            //PAsM.ProblemAnswer.ProblemID = id;
+            //PAsM.ProblemAnswer.StudentID = ViewBag.User;
+            //PAsM.ProblemAnswer.Answer = "";
+            //PAsM.ProblemAnswer.Attempt = 0;
+            //PAsM.ProblemAnswer.TutorID = 0;
+            //PAsM.ProblemAnswer.Score = 0;
+
+            //string OMMBCdbC = "Data Source=BRTZ-DESKTOP\\SQLEXPRESS;Initial Catalog=OMMBC2;Integrated Security=True;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+            //using (SqlConnection sqlCon = new SqlConnection(OMMBCdbC))
+            //{
+            //    sqlCon.Open();
+            //    string query = "INSERT INTO ProblemAnswers VALUES(@ProblemAnswerID, @ProblemID, @StudentID, @Answer, @Attempt, @TutorID, @Score)";
+            //    SqlCommand sqlCmd = new SqlCommand(query, sqlCon);
+            //    sqlCmd.Parameters.AddWithValue("@ProblemAnswerID", PAsM.ProblemAnswer.ProblemAnswerID);
+            //    sqlCmd.Parameters.AddWithValue("@ProblemID", PAsM.ProblemAnswer.ProblemID);
+            //    sqlCmd.Parameters.AddWithValue("@StudentID", PAsM.ProblemAnswer.StudentID);
+            //    sqlCmd.Parameters.AddWithValue("@Answer", "");
+            //    sqlCmd.Parameters.AddWithValue("@Attempt", PAsM.ProblemAnswer.Attempt);
+            //    sqlCmd.Parameters.AddWithValue("@TutorID", PAsM.ProblemAnswer.TutorID);
+            //    sqlCmd.Parameters.AddWithValue("@Score", PAsM.ProblemAnswer.Score);
+            //    sqlCmd.ExecuteNonQuery();
+
+
+            //}
+
+            //return View("ProblemDetailsAnswer");
+
+            ProblemAnswer problem = PAsM.ProblemAnswer;
+            try
+            {
+                // TODO: Add update logic here
+                problem.ProblemID = problem.ProblemID;
+                problem.Attempt = problem.Attempt + 1;
+                problem.Answer = Request.Form["Answer"];
+                problemRepository.Save();
+                return RedirectToAction("SubmittedProblem", problem.ProblemID);
+            }
+            catch
+            {
+                return View();
+            }
+
+            //var db = new OMMBCdb();
+            //ProblemAnswerSolutionModel PASM = new ProblemAnswerSolutionModel();
+            //PASM.Problem = problemRepository.GetProblem(id);
+            //ProblemAnswer prob = new ProblemAnswer()
+            //{
+            //    ProblemAnswerID = db.ProblemAnswers.Count() + 1,
+            //    ProblemID = id,
+            //    StudentID = ViewBag.User,
+            //    Answer = null,
+            //    Attempt = 0,
+            //    TutorID = null,
+            //    Score = 0
+            //};
+
+            //PASM.ProblemAnswer = problemRepository.AddAnswer(prob);
+            //return View(PASM);
+        }
+
+        
         // GET: OMMBC/CreateProblem
         public ActionResult CreateProblem()
         {

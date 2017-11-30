@@ -1,0 +1,64 @@
+﻿@model IEnumerable<MVC_Template.Models.ProblemAnswer>
+
+@{
+        ViewBag.Title = "RequestProblem";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>RequestProblem</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(problem => model.ProblemID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.StudentID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Answer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Attempt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TutorID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Score)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProblemID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.StudentID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Answer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Attempt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TutorID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Score)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ProblemAnswerID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ProblemAnswerID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ProblemAnswerID })
+        </td>
+    </tr>
+}
+
+</table>
